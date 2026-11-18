@@ -19,6 +19,7 @@ model Athlete {
   /// request, replaced to revoke the previous URL. Unique so a feed request
   /// finds its athlete in one indexed read.
   calendarFeedToken String? @unique @map("calendar_feed_token")
+  rungapWebhookId   String? @unique @map("rungap_webhook_id") @db.Uuid
 
   // relationships
   user                     User                      @relation(fields: [userId], references: [userId])

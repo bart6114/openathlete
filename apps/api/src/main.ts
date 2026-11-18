@@ -1,4 +1,4 @@
-import { json } from 'express';
+import { json, raw } from 'express';
 import helmet from 'helmet';
 
 import { ConfigService } from '@nestjs/config';
@@ -12,6 +12,8 @@ import {
   GARMIN_WEBHOOK_BODY_LIMIT,
   GARMIN_WEBHOOK_PATH,
   JSON_BODY_LIMIT,
+  RUNGAP_WEBHOOK_BODY_LIMIT,
+  RUNGAP_WEBHOOK_PATH,
   drainGarminActivityDetails,
   rejectOversizedArrays,
 } from './common/security/payload-limits';
@@ -43,6 +45,14 @@ async function bootstrap() {
   app.use(GARMIN_WEBHOOK_PATH, json({ limit: GARMIN_WEBHOOK_BODY_LIMIT }));
   app.useBodyParser('json', { limit: JSON_BODY_LIMIT });
   app.use(rejectOversizedArrays);
+  app.use(
+    RUNGAP_WEBHOOK_PATH,
+    raw({
+      type: 'multipart/form-data',
+      limit: RUNGAP_WEBHOOK_BODY_LIMIT,
+      inflate: false,
+    }),
+  );
 
   const configService = app.get(ConfigService<ApiEnvSchemaType, true>);
 

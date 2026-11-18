@@ -21,6 +21,7 @@ import { InjuryController } from './controllers/injury.controller';
 import { ManualFitImportController } from './controllers/manual-fit-import.controller';
 import { MetricController } from './controllers/metric.controller';
 import { RecordController } from './controllers/record.controller';
+import { RunGapController } from './controllers/rungap.controller';
 import { StatisticsController } from './controllers/statistics.controller';
 import { TrainingLoadController } from './controllers/training-load.controller';
 import { TrainingZoneController } from './controllers/training-zone.controller';
@@ -64,6 +65,7 @@ import {
   WeatherProcessor,
 } from './services/pipeline/processors';
 import { RecordService } from './services/record.service';
+import { RunGapService } from './services/rungap.service';
 import { StatisticsService } from './services/statistics.service';
 import { StrengthSessionService } from './services/strength-session.service';
 import { TrainingLoadService } from './services/training-load.service';
@@ -99,6 +101,7 @@ import { WeatherService } from './services/weather/weather.service';
     TrainingLoadController,
     CycleController,
     ManualFitImportController,
+    RunGapController,
   ],
   providers: [
     CustomExerciseService,
@@ -106,6 +109,7 @@ import { WeatherService } from './services/weather/weather.service';
     EventService,
     ActivityDuplicateService,
     ManualFitImportService,
+    RunGapService,
     WorkoutService,
     EventTemplateService,
     EventTemplateFolderService,

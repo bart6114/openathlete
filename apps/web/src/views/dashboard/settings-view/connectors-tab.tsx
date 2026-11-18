@@ -47,6 +47,7 @@ import {
 import { CalendarFeedSection } from './calendar-feed-section';
 import { DuplicateActivitiesSection } from './duplicate-activities-section';
 import { GarminPersonalSection } from './garmin-personal-section';
+import { RunGapRow } from './rungap-row';
 import {
   SettingsPanel,
   SettingsRow,
@@ -75,6 +76,7 @@ export function ConnectorsTab() {
   const [updatingProvider, setUpdatingProvider] =
     useState<ConnectorProvider | null>(null);
   const roles = useUserRoles();
+  const isAthlete = roles?.includes('ATHLETE');
   const [importingProvider, setImportingProvider] =
     useState<ConnectorProvider | null>(null);
 
@@ -239,7 +241,7 @@ export function ConnectorsTab() {
       {instance?.garminPersonalApi && <GarminPersonalSection />}
       {isLoadingConnected ? (
         <SettingsRowsSkeleton count={SUPPORTED_PROVIDERS.length} />
-      ) : providers.length === 0 ? (
+      ) : providers.length === 0 && !isAthlete ? (
         <ConnectorsUnavailable />
       ) : (
         <SettingsPanel>
@@ -309,6 +311,7 @@ export function ConnectorsTab() {
               return (
                 <SettingsRow
                   key={provider}
+                  data-connector-provider={provider}
                   leading={logo}
                   title={connectorProviderLabelMap[provider]}
                   description={m.not_connected()}
@@ -457,6 +460,7 @@ export function ConnectorsTab() {
               </Collapsible>
             );
           })}
+          {isAthlete && <RunGapRow />}
         </SettingsPanel>
       )}
 

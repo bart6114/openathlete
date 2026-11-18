@@ -3,10 +3,29 @@ import client, { routes } from '@/utils/axios';
 import {
   ImportedActivityDto,
   RemoveDuplicateActivitiesResponseDto,
+  RunGapConnectionDto,
   SPORT_TYPE,
 } from '@openathlete/shared';
 
 export class ActivityImportAPI {
+  static async getRunGapConnection() {
+    const res = await client.get<RunGapConnectionDto>(
+      routes.activityImport.runGapConnection,
+    );
+    return res.data;
+  }
+
+  static async setRunGapConnection(enabled: boolean) {
+    if (enabled) {
+      const res = await client.post<RunGapConnectionDto>(
+        routes.activityImport.runGapConnection,
+      );
+      return res.data;
+    }
+    await client.delete(routes.activityImport.runGapConnection);
+    return { connection: null } satisfies RunGapConnectionDto;
+  }
+
   /** One FIT file of a recorded activity, saved for the signed-in athlete. */
   static async importFit(file: File, name: string) {
     const body = new FormData();
