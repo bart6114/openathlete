@@ -28,6 +28,10 @@ export type ImportTcxActivityFileDto = z.infer<
   typeof importTcxActivityFileDtoSchema
 >;
 
+export interface RunGapConnectionDto {
+  connection: { url: string; passkey: string } | null;
+}
+
 /** Data a file lacked, or that was left out to keep series aligned. */
 export const ACTIVITY_IMPORT_WARNINGS = [
   'FIT_INCOMPLETE_CHANNELS',

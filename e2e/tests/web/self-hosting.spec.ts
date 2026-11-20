@@ -50,7 +50,7 @@ test('hides what the instance has not set up', async ({ page, request }) => {
     garminPersonalApi: false,
     email: false,
     personalEmails: false,
-    // COROS is the one connector that needs no setup
+    // COROS is the one OAuth connector that needs no setup
     providers: ['COROS'],
     signup: 'open',
     oidc: { name: 'Fake IdP' },
@@ -60,7 +60,10 @@ test('hides what the instance has not set up', async ({ page, request }) => {
 
   await page.goto('/dashboard/settings?tab=connectors');
   await expect(page.locator('[data-connectors-unavailable]')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Connect' }).click();
+  await page
+    .locator('[data-connector-provider="COROS"]')
+    .getByRole('button', { name: 'Connect', exact: true })
+    .click();
   // COROS has one server per region: the account's owner tells which
   await expect(
     page.getByRole('heading', { name: 'Where is your COROS account?' }),

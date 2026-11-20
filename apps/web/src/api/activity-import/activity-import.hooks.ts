@@ -4,6 +4,7 @@ import {
   MutationOptions,
   QueryClient,
   useMutation,
+  useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
 
@@ -14,6 +15,24 @@ import {
 } from '@openathlete/shared';
 
 import { ActivityImportAPI } from './activity-import.api';
+
+const runGapConnectionKey = ['activity-import', 'rungap-connection'];
+
+export function useRunGapConnectionQuery() {
+  return useQuery({
+    queryKey: runGapConnectionKey,
+    queryFn: ActivityImportAPI.getRunGapConnection,
+  });
+}
+
+export function useSetRunGapConnectionMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ActivityImportAPI.setRunGapConnection,
+    onSuccess: (result) =>
+      queryClient.setQueryData(runGapConnectionKey, result),
+  });
+}
 
 const refreshImported = (
   queryClient: QueryClient,
